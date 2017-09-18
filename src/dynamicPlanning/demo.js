@@ -3,20 +3,62 @@ import { Input, Button } from 'antd';
 import 'antd/dist/antd.css';
 import './demo.pcss';
 
+// // O(2^n)
+// const floorAlgorithm = (n) => {
+//     if (n < 1) {
+//         alert('no kidding');
+//         return 0;
+//     }
+//
+//     if (n === 1) return 1;
+//     if (n === 2) return 2;
+//
+//     return floorAlgorithm(n - 1) + floorAlgorithm(n - 2);
+// };
+
+// // O(n)
+// const PathMemo = {};       // 备忘录
+// const floorAlgorithm = (n) => {
+//     if (n < 1) {
+//         alert('no kidding');
+//         return 0;
+//     }
+//
+//     if (n === 1) return 1;
+//     if (n === 2) return 2;
+//
+//     if (PathMemo[n] !== undefined) {
+//         return PathMemo[n];
+//     }
+//
+//     const value = floorAlgorithm(n - 1) + floorAlgorithm(n - 2);
+//     PathMemo[n] = value;
+//     return value;
+// };
+
+// time: O(n)  space: O(1)
+const floorAlgorithm = (n) => {
+    if (n < 1) {
+        alert('no kidding');
+        return 0;
+    }
+
+    if (n === 1) return 1;
+    if (n === 2) return 2;
+
+    let value = 0;
+    let a = 1;
+    let b = 2;
+    for (let i = 2; i < n; i++) {
+        value = a + b;
+        a = b;
+        b = value;
+    }
+
+    return value;
+};
+
 export default class Demo extends Component {
-    static floorAlgorithm = (n) => {
-        if (n < 1) {
-            alert('no kidding');
-            return 0;
-        }
-
-        if (n === 1) return 1;
-
-        if (n === 2) return 2;
-
-        return Demo.floorAlgorithm(n - 1) + Demo.floorAlgorithm(n - 2);
-    };
-
     constructor() {
         super();
         this.state = {
@@ -37,7 +79,7 @@ export default class Demo extends Component {
         } = this.state;
 
         this.setState({
-            result: Demo.floorAlgorithm(Number(value)),
+            result: floorAlgorithm(Number(value)),
         });
     };
 
